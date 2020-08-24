@@ -1,34 +1,14 @@
 import 'package:flutter/material.dart';
+import 'helpers.dart' as Helpers;
 
 void main() {
   runApp(MyApp());
 }
 
-var individualBlock = Container(color: Colors.white);
-var blocks = List.filled(25, individualBlock);
-
-// Fruits definition.
-var fruitList = ['🍎', '🍌', '🍇', '🍊', '🍉', '🍒'];
-emojiButton(fruitEmoji) {
-  return FlatButton(
-    color: Colors.white,
-    textColor: Colors.black,
-    disabledColor: Colors.grey,
-    disabledTextColor: Colors.black,
-    padding: EdgeInsets.all(8.0),
-    splashColor: Colors.blueAccent,
-    onPressed: () {
-      print(fruitEmoji);
-    },
-    child: Text(
-      fruitEmoji,
-      style: TextStyle(fontSize: 5)
-    ),
-  );
-}
-
-var fruits = fruitList.map<Widget>((fruit) => emojiButton(fruit)).toList();
-var fruitListWorking = fruitList.map<Widget>((fruit) => Text(fruit)).toList();
+var blocks = List.filled(25, Helpers.individualBlock);
+var fruits = Helpers.fruitList
+    .map<Widget>((fruit) => Helpers.emojiButton(fruit))
+    .toList();
 
 class MyApp extends StatelessWidget {
   @override
