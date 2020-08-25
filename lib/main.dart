@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'helpers.dart' as Helpers;
+import 'homepage.dart';
 
 void main() {
   runApp(MyApp());
@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: title,
       theme: new ThemeData(scaffoldBackgroundColor: Colors.white),
-      home: new Helpers.HomePage()
+      home: new HomePage()
     );
   }
 }
