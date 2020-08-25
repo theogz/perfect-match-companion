@@ -103,13 +103,18 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
         // Reset grid functionality.
-        Container(
-            color: Colors.white,
-            constraints: BoxConstraints(minWidth: double.infinity, minHeight: double.infinity),
-            child: FlatButton(
+        ConstrainedBox(
+            constraints: BoxConstraints(
+                minWidth: 500,
+                minHeight: 160
+            ),
+            child: Container(
                 color: Colors.white,
-                child: Text('RESET GRID'),
-                onPressed: () => _clearArray(),
+                child: FlatButton(
+                    color: Colors.white,
+                    child: Text('RESET GRID', style: TextStyle(color: Colors.black)),
+                    onPressed: () => _clearArray(),
+                ),
             ),
         ),
         // Fill the rest up until the bottom of the screen.
