@@ -25,6 +25,12 @@ class _HomePageState extends State<HomePage> {
         });
     }
 
+    void _clearArray() {
+        setState(() {
+            grid = List.filled(25, '');
+        });
+    }
+
     generateGrid(tilesArray) {
         return tilesArray.asMap().entries.map<Widget>((entry) => new GestureDetector(
             onTap: () {
@@ -67,14 +73,14 @@ class _HomePageState extends State<HomePage> {
       children: <Widget>[
         // 5x5 matrix of potential fruit squares.
         Container(
-          decoration: BoxDecoration(color: Colors.black),
-          child: GridView(
-            shrinkWrap: true,
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisSpacing: 2,
-              mainAxisSpacing: 2,
-              crossAxisCount: 5,
-            ),
+            decoration: BoxDecoration(color: Colors.black),
+            child: GridView(
+                shrinkWrap: true,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisSpacing: 2,
+                    mainAxisSpacing: 2,
+                    crossAxisCount: 5,
+                ),
             children: tiles,
           ),
         ),
@@ -96,7 +102,17 @@ class _HomePageState extends State<HomePage> {
             child: Text(this.selectedEmoji, style: TextStyle(fontSize: 50)),
           ),
         ),
-        // Fill to the bottom.
+        // Reset grid functionality.
+        Container(
+            color: Colors.white,
+            constraints: BoxConstraints(minWidth: double.infinity, minHeight: double.infinity),
+            child: FlatButton(
+                color: Colors.white,
+                child: Text('RESET GRID'),
+                onPressed: () => _clearArray(),
+            ),
+        ),
+        // Fill the rest up until the bottom of the screen.
         Expanded(child: Container(color: Colors.white)),
       ],
     );
