@@ -108,6 +108,10 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
         ),
+        Divider(
+          height: 1,
+          color: Colors.black,
+        ),
         // Reset grid functionality.
         ConstrainedBox(
           constraints: BoxConstraints(minWidth: 500, minHeight: 160),
@@ -115,7 +119,9 @@ class _HomePageState extends State<HomePage> {
             color: Colors.white,
             child: FlatButton(
               color: Colors.white,
-              child: Text('RESET GRID', style: TextStyle(color: Colors.black)),
+              child: Center(
+                  child: Text('RESET GRID',
+                      style: TextStyle(color: Colors.black))),
               onPressed: () => _clearArray(),
             ),
           ),
