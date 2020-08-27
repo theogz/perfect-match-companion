@@ -62,7 +62,6 @@ class _HomePageState extends State<HomePage> {
       padding: EdgeInsets.all(8.0),
       splashColor: Colors.blueAccent,
       onPressed: () {
-        print(emoji);
         _changeSelectedEmoji(emoji);
       },
       child: Text(emoji, style: TextStyle(fontSize: 35)),
@@ -73,7 +72,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     var tiles = generateGrid(grid);
     var fruits = fruitList.map<Widget>((fruit) => selectEmoji(fruit)).toList();
-    return new Column(
+    return new Wrap(
       children: <Widget>[
         // 5x5 matrix of potential fruit squares.
         Container(
@@ -100,10 +99,13 @@ class _HomePageState extends State<HomePage> {
                 ),
                 children: fruits)),
         // Selected fruit display.
-        Material(
-          color: Colors.white,
-          child: Center(
-            child: Text(this.selectedEmoji, style: TextStyle(fontSize: 50)),
+        Container(
+          height: 65,
+          child: Material(
+            color: Colors.white,
+            child: Center(
+              child: Text(this.selectedEmoji, style: TextStyle(fontSize: 50)),
+            ),
           ),
         ),
         // Reset grid functionality.
@@ -118,8 +120,6 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
         ),
-        // Fill the rest up until the bottom of the screen.
-        Expanded(child: Container(color: Colors.white)),
       ],
     );
   }
