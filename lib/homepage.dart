@@ -45,7 +45,7 @@ class _HomePageState extends State<HomePage> {
               color: Colors.white,
               child: Material(
                 child: Center(
-                    child: Text(entry.value, style: TextStyle(fontSize: 25))),
+                    child: Text(entry.value, style: TextStyle(fontSize: 50))),
               ),
             ),
           ),
@@ -83,7 +83,7 @@ class _HomePageState extends State<HomePage> {
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisSpacing: 2,
               mainAxisSpacing: 2,
-              crossAxisCount: 5,
+              crossAxisCount: 4,
             ),
             children: tiles,
           ),
