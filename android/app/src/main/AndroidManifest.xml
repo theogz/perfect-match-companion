@@ -7,7 +7,7 @@
          FlutterApplication and put your custom class here. -->
     <application
         android:name="io.flutter.app.FlutterApplication"
-        android:label="perfect_match_companion"
+        android:label="Perfect Match companion"
         android:icon="@mipmap/launcher_icon">
         <activity
             android:name=".MainActivity"
