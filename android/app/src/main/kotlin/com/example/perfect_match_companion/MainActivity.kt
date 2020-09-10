@@ -1,4 +1,4 @@
-package com.example.perfect_match_companion
+package com.tthheeoo.perfect_match_companion
 
 import io.flutter.embedding.android.FlutterActivity
 
