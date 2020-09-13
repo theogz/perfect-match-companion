@@ -3,6 +3,7 @@ library homepage;
 import 'package:flutter/material.dart';
 
 const fruitList = ['🍎', '🍌', '🍇', '🍊', '🍉', '🍒'];
+const emptyFruit = '';
 
 class HomePage extends StatefulWidget {
   @override
@@ -10,8 +11,14 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  String selectedEmoji = '';
-  List grid = List.filled(16, '');
+  // Selected emoji in the menu.
+  String selectedEmoji = emptyFruit;
+
+  // Selected tile index in the matrix.
+  int selectedTileIndex;
+
+  // Matrix of fruits.
+  List fruitMatrix = List.filled(16, emptyFruit);
 
   void _changeSelectedEmoji(emoji) {
     setState(() {
@@ -19,15 +26,37 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  void _updateArray(emoji, pos) {
+  void _changeSelectedTile(value) {
     setState(() {
-      grid[pos] = emoji;
+      selectedTileIndex = value;
     });
+  }
+
+  void _updateEmojiInMatrix(emoji, pos) {
+    setState(() {
+      fruitMatrix[pos] = emoji;
+    });
+  }
+
+  bool _isTileEmpty(pos) {
+    return fruitMatrix[pos] == emptyFruit;
+  }
+
+  bool _isSameFruit(fruit, pos) {
+    return fruitMatrix[pos] == fruit;
+  }
+
+  bool isTileSelected(pos) {
+    return selectedTileIndex == pos;
+  }
+
+  bool hasTileSelected() {
+    return selectedTileIndex != null;
   }
 
   void _clearArray() {
     setState(() {
-      grid = List.filled(16, '');
+      fruitMatrix = List.filled(16, emptyFruit);
     });
   }
 
@@ -38,12 +67,29 @@ class _HomePageState extends State<HomePage> {
         .map<Widget>(
           (entry) => new GestureDetector(
             onTap: () {
-              _updateArray(this.selectedEmoji, entry.key);
-              return _changeSelectedEmoji('');
+              int pos = entry.key;
+
+              // Fruit is selected in menu: apply in grid
+              if (selectedEmoji != '') {
+                String newValue = _isSameFruit(this.selectedEmoji, pos)
+                    ? emptyFruit
+                    : this.selectedEmoji;
+                _updateEmojiInMatrix(newValue, pos);
+                return _changeSelectedEmoji('');
+              }
+
+              // No fruit selected: remove if there is one in grid.
+              if (!_isTileEmpty(pos)) {
+                return _updateEmojiInMatrix('', pos);
+              }
+
+              // No Fruit, no selection: highlight grid item.
+              bool isSelected = isTileSelected(pos);
+              _changeSelectedTile((isSelected) ? null : pos);
             },
             child: Container(
-              color: Colors.white,
               child: Material(
+                color: isTileSelected(entry.key) ? Colors.amber : Colors.white,
                 child: Center(
                     child: Text(entry.value, style: TextStyle(fontSize: 50))),
               ),
@@ -53,7 +99,7 @@ class _HomePageState extends State<HomePage> {
         .toList();
   }
 
-  selectEmoji(emoji) {
+  makeEmojiMenuButton(emoji) {
     return FlatButton(
       color: Colors.white,
       textColor: Colors.black,
@@ -62,7 +108,14 @@ class _HomePageState extends State<HomePage> {
       padding: EdgeInsets.all(8.0),
       splashColor: Colors.blueAccent,
       onPressed: () {
-        print(emoji);
+        // if there is a tile selected, fill with current fruit.
+        if (hasTileSelected()) {
+          _updateEmojiInMatrix(emoji, this.selectedTileIndex);
+          _changeSelectedTile(null);
+          return;
+        }
+
+        // Update fruit below menu.
         _changeSelectedEmoji(emoji);
       },
       child: Text(emoji, style: TextStyle(fontSize: 35)),
@@ -71,8 +124,9 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    var tiles = generateGrid(grid);
-    var fruits = fruitList.map<Widget>((fruit) => selectEmoji(fruit)).toList();
+    var tiles = generateGrid(fruitMatrix);
+    var fruitButtons =
+        fruitList.map<Widget>((fruit) => makeEmojiMenuButton(fruit)).toList();
     return new Column(
       children: <Widget>[
         // 5x5 matrix of potential fruit squares.
@@ -98,7 +152,7 @@ class _HomePageState extends State<HomePage> {
                   mainAxisSpacing: 2,
                   crossAxisCount: 6,
                 ),
-                children: fruits)),
+                children: fruitButtons)),
         // Selected fruit display.
         Material(
           color: Colors.white,
